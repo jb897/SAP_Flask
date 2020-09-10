@@ -23,6 +23,9 @@ def primes(n):
 			prime_nums.append(p)
 	return prime_nums
 
+def getOddsOrEvens(n, mod):
+	return [i for i in range(1, n+1) if i % 2 == mod]
+
 @app.route('/')
 def index():
 	return render_template('index.html')
@@ -35,30 +38,30 @@ def number(number):
 		return render_template('error.html')
 
 	nums = [i for i in range(1, num+1)]
-	return render_template('number.html', nums=nums)
+	return render_template('number.html', title="Numbers", nums=nums)
 
 
-@app.route('/<int:number>/odd')
+@app.route('/<number>/odd')
 def odd(number):
 	try:
 		num = int(number)
 	except:
 		return render_template('error.html')
 
-	nums = [i for i in range(1, num+1) if i % 2 == 1]
-	return render_template('odd.html', nums=nums)
+	nums = getOddsOrEvens(num, 1)
+	return render_template('number.html', title="Odds", nums=nums)
 
-@app.route('/<int:number>/even')
+@app.route('/<number>/even')
 def even(number):
 	try:
 		num = int(number)
 	except:
 		return render_template('error.html')
 
-	nums = [i for i in range(1, num+1) if i % 2 == 0]
-	return render_template('even.html', nums=nums)
+	nums = getOddsOrEvens(num, 0)
+	return render_template('number.html', title="Evens", nums=nums)
 
-@app.route('/<int:number>/prime')
+@app.route('/<number>/prime')
 def prime(number):
 	try:
 		num = int(number)
@@ -66,7 +69,7 @@ def prime(number):
 		return render_template('error.html')
 
 	nums = primes(num)
-	return render_template('prime.html', nums=nums)
+	return render_template('number.html', title="Primes", nums=nums)
 
 if __name__ == "__main__":
 	app.run(debug=True, host='0.0.0.0')
