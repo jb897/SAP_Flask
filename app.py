@@ -69,4 +69,4 @@ def prime(number):
 	return render_template('prime.html', nums=nums)
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(debug=True, host='0.0.0.0')
